@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { TextField, Typography, Button } from '@mui/material';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import TaskComponent from './components/TaskComponent';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -21,14 +21,8 @@ export default function BasicGrid() {
   const [completed, setCompleted] = useState([])
   const [input, changeInput] = useState('')
 
-  const ref = useRef(null);
 
   return (
-    <div style={{
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    }}>
       <Box style={{
         display: 'flex',
         flexWrap: 'wrap',
@@ -43,44 +37,59 @@ export default function BasicGrid() {
 
           {/* Store Events */}
           <Grid item xs={12} lg={6} md={12}>
-            <Typography variant="h4" gutterBottom style={{
-              padding: '10px'
+
+            <div style={{
+              border: "1px solid black",
+              display:"flex",
+              flexWrap:'wrap',
+              flexDirection:"column",
+              justifyContent:"center",
+              alignItems:"center"
             }}>
-              Todos
-            </Typography>
+              {/* First component lies here */}
 
-            {
-              todos.length === 0 ?
+              <Typography variant="h4" gutterBottom style={{
+                padding: '10px'
+              }}>
+                Todos
+              </Typography>
 
-                (<Typography variant="h6" gutterBottom style={{
-                  padding: '20px'
-                }}>
-                  No Tasks Added
-                </Typography>) :
+              {
+                todos.length === 0 ?
 
-                todos.map((todo, index) => (
-                  <TaskComponent key={index} todo={todo} todos={todos} completed={completed} setTodos={setTodos} setCompleted={setCompleted} />
-                ))
-            }
-            <div style={{ display: 'flex', flexWrap:'wrap', justifyContent: 'center', gap: '5px', padding:'10px', margin:'20px' }}>
-              <TextField ref={ref} value={input} id="outlined-basic" autoComplete='off' label="Create Event" variant="outlined" onChange={(e) => {
-                changeInput(e.target.value)
-              }} />
-              <Button variant="outlined" onClick={() => {
+                  (<Typography variant="h6" gutterBottom style={{
+                    padding: '20px'
+                  }}>
+                    No Tasks Added
+                  </Typography>) :
 
-                changeInput('')
-
-                if (input === '') {
-                  alert('Enter some valid task')
-                } else if(todos.includes(input)){
-                  alert('Task already present')
-                } else {
-                  setTodos((oldTodo) => (
-                    [...oldTodo, input]
+                  todos.map((todo, index) => (
+                    <TaskComponent key={index} todo={todo} todos={todos} completed={completed} setTodos={setTodos} setCompleted={setCompleted} />
                   ))
-                }
-              }}>Create Event</Button>
+              }
+              <div style={{ display: 'flex', flexWrap:'wrap', justifyContent: 'center', gap: '5px', padding:'10px', margin:'20px' }}>
+                <TextField value={input} id="outlined-basic" autoComplete='off' label="Create Event" variant="outlined" onChange={(e) => {
+                  changeInput(e.target.value)
+                }} />
+                <Button variant="outlined" onClick={() => {
+
+                  changeInput('')
+
+                  if (input === '') {
+                    alert('Enter some valid task')
+                  } else if(todos.includes(input)){
+                    alert('Task already present')
+                  } else {
+                    setTodos((oldTodo) => (
+                      [...oldTodo, input]
+                    ))
+                  }
+                }}>Create Event</Button>
+              </div>
+
             </div>
+
+
           </Grid>
 
           {/* Completed Events */}
@@ -88,7 +97,6 @@ export default function BasicGrid() {
 
             <div style={{
               border: "1px solid green",
-              minHeight: "200px",
               display:"flex",
               flexWrap:'wrap',
               flexDirection:"column",
@@ -126,7 +134,5 @@ export default function BasicGrid() {
 
         </Grid>
       </Box>
-
-    </div>
   );
 }
